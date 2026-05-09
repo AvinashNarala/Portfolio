@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avinash Narala — Senior Data Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #ffffff;
+  --cream: #f8f6f1;
+  --cream2: #f0ede6;
+  --ink: #111111;
+  --ink2: #3a3a3a;
+  --muted: #888888;
+  --navy: #0f2057;
+  --amber: #c97d2e;
+  --line: #e5e2db;
+  --tag-bg: #f0ede6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; width: 100%;
+  z-index: 100;
+  padding: 22px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: 0 1px 20px rgba(0,0,0,0.06); }
+
+.nav-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--navy);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  z-index: 101;
+}
+
+.nav-links { display: flex; gap: 36px; list-style: none; }
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--ink); }
+
+/* ─── HAMBURGER ─── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 101;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--ink);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ─── MOBILE MENU OVERLAY ─── */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(20px);
+  z-index: 99;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.mobile-menu.open { opacity: 1; }
+.mobile-menu a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: var(--navy); }
+.mobile-menu-footer {
+  position: absolute;
+  bottom: 32px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  padding: 0 7%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 80px;
+  padding-top: 80px;
+  scroll-margin-top: 0;
+}
+
+.hero-left { }
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--amber);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: up 0.8s 0.2s forwards;
+}
+
+.hero-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: up 0.8s 0.4s forwards;
+}
+
+.hero-name em {
+  font-style: italic;
+  color: var(--ink);
+}
+
+.hero-role-wrap {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: up 0.8s 0.6s forwards;
+  min-height: 1.4em;
+}
+
+.hero-bio {
+  font-size: 0.92rem;
+  color: var(--ink2);
+  line-height: 1.85;
+  max-width: 440px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: up 0.8s 0.8s forwards;
+  font-weight: 300;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: up 0.8s 1.0s forwards;
+}
+
+.btn {
+  padding: 13px 28px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: 1px solid;
+  transition: all 0.25s;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.btn-dark {
+  background: var(--ink);
+  color: var(--white);
+  border-color: var(--ink);
+}
+.btn-dark:hover { background: var(--navy); border-color: var(--navy); }
+
+.btn-light {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.btn-light:hover { border-color: var(--ink); }
+
+/* Hero Right */
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  opacity: 0;
+  animation: fade 1s 1.0s forwards;
+}
+
+.hero-photo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+  position: relative;
+  width: 340px;
+  height: 340px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-photo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(207, 125, 46, 0.08), rgba(15, 32, 87, 0.06));
+  z-index: 0;
+}
+
+.hero-photo-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 70% 70%, rgba(15, 32, 87, 0.04) 0%, rgba(201, 125, 46, 0.03) 50%, transparent 100%);
+  z-index: -1;
+}
+
+.hero-photo {
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  border: 3px solid var(--line);
+  object-fit: cover;
+  object-position: center center;
+  filter: grayscale(10%);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.14);
+  position: relative;
+  z-index: 1;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--line);
+}
+
+.stat-cell {
+  padding: 24px 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.stat-cell:nth-child(even) { border-right: none; padding-left: 28px; }
+.stat-cell:nth-child(odd) { padding-right: 28px; }
+
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--navy);
+  display: block;
+}
+.stat-label {
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  font-family: 'DM Mono', monospace;
+}
+
+/* ─── SECTION BASE ─── */
+section { padding: 100px 7%; scroll-margin-top: 66px; }
+.section-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--amber);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 56px;
+}
+
+/* ─── ABOUT ─── */
+#about { background: var(--cream); border-top: 1px solid var(--line); }
+.about-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 72px; align-items: start; }
+.about-p { font-size: 0.88rem; color: var(--ink2); line-height: 1.95; margin-bottom: 18px; font-weight: 300; }
+.about-p strong { color: var(--ink); font-weight: 500; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.chip {
+  font-size: 0.68rem;
+  font-family: 'DM Mono', monospace;
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 6px 14px;
+  color: var(--ink2);
+  letter-spacing: 0.03em;
+  transition: all 0.2s;
+}
+.chip:hover { border-color: var(--navy); color: var(--navy); }
+
+.cert-list { display: flex; flex-direction: column; gap: 10px; }
+.cert-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  transition: all 0.2s;
+}
+.cert-row:hover { border-color: #c0bdb6; transform: translateX(4px); }
+.cert-dot { width: 6px; height: 6px; background: var(--amber); border-radius: 50%; flex-shrink: 0; }
+.cert-text { font-size: 0.74rem; color: var(--ink2); line-height: 1.4; }
+.cert-issuer { font-size: 0.62rem; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 2px; }
+
+/* ─── SKILLS ─── */
+#skills { }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: transparent; border: none; }
+.skill-cell { background: var(--white); padding: 28px; transition: background 0.2s; }
+.skill-cell:hover { background: var(--cream); }
+.skill-cell-title { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--amber); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+.skill-items { display: flex; flex-wrap: wrap; gap: 7px; }
+.s-tag {
+  font-size: 0.72rem;
+  background: var(--tag-bg);
+  padding: 5px 11px;
+  color: var(--ink2);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+.s-tag:hover { border-color: var(--line); background: var(--white); color: var(--navy); }
+
+/* ─── EXPERIENCE ─── */
+#experience { background: var(--cream); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.exp-list { display: flex; flex-direction: column; gap: 0; }
+
+.exp-item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 48px;
+  padding: 44px 0;
+  border-bottom: 1px solid var(--line);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.exp-item.visible { opacity: 1; transform: translateY(0); }
+.exp-item:first-child { border-top: 1px solid var(--line); }
+
+.exp-meta { }
+.exp-date { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.05em; line-height: 1.6; white-space: nowrap; }
+.exp-domain { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--amber); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 6px; }
+
+.exp-body { }
+.exp-company { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+.exp-role { font-size: 0.78rem; color: var(--muted); margin-bottom: 18px; font-family: 'DM Mono', monospace; }
+.exp-points { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.exp-points li { font-size: 0.83rem; color: var(--ink2); line-height: 1.8; padding-left: 14px; position: relative; font-weight: 300; }
+.exp-points li::before { content: '–'; position: absolute; left: 0; color: var(--amber); }
+.exp-points li strong { color: var(--ink); font-weight: 500; }
+
+/* ─── PROJECTS ─── */
+#projects { }
+.proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+.proj-card {
+  border: 1px solid var(--line);
+  padding: 32px;
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.proj-card:hover {
+  border-color: #c0bdb6;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+  transform: translateY(-3px);
+}
+.proj-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 0;
+  background: var(--amber);
+  transition: height 0.4s;
+}
+.proj-card:hover::after { height: 100%; }
+.proj-badge { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--amber); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+.proj-name { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.01em; line-height: 1.2; }
+.proj-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.85; margin-bottom: 20px; font-weight: 300; }
+.proj-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.proj-tag { font-size: 0.62rem; font-family: 'DM Mono', monospace; padding: 4px 10px; background: var(--tag-bg); color: var(--ink2); border: 1px solid transparent; }
+.proj-num { position: absolute; right: 20px; bottom: 16px; font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 700; color: var(--line); line-height: 1; pointer-events: none; }
+
+/* ─── BLOGS ─── */
+#blogs { background: var(--cream); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.blogs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+.blog-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 30px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s;
+  position: relative;
+}
+.blog-card:hover { border-color: #c0bdb6; transform: translateY(-3px); box-shadow: 0 8px 40px rgba(0,0,0,0.06); }
+.blog-pub { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--amber); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+.blog-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--ink); margin-bottom: 12px; line-height: 1.4; }
+.blog-excerpt { font-size: 0.76rem; color: var(--muted); line-height: 1.8; margin-bottom: 22px; font-weight: 300; }
+.blog-arrow { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--navy); letter-spacing: 0.08em; display: flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+.blog-card:hover .blog-arrow { gap: 10px; }
+
+.community-strip {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 24px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.community-strip a { text-decoration: none; }
+.cs-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.cs-link { font-size: 0.8rem; color: var(--navy); font-weight: 400; transition: color 0.2s; }
+.cs-link:hover { color: var(--amber); }
+
+/* ─── ACHIEVEMENTS ─── */
+#achievements { }
+.ach-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.ach-card { padding: 24px; border: 1px solid var(--line); background: var(--white); transition: all 0.2s; }
+.ach-card:hover { background: var(--cream); border-color: #c0bdb6; }
+.ach-icon { font-size: 1.2rem; margin-bottom: 12px; }
+.ach-text { font-size: 0.8rem; color: var(--ink2); line-height: 1.7; font-weight: 300; }
+.ach-text strong { color: var(--ink); font-weight: 500; }
+
+/* ─── CONTACT ─── */
+#contact { background: var(--cream); border-top: 1px solid var(--line); }
+.contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; }
+.contact-intro { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; line-height: 1.5; color: var(--ink); margin-bottom: 32px; font-style: italic; }
+.contact-links-list { display: flex; flex-direction: column; gap: 0; }
+.c-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 17px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--ink2);
+  font-size: 0.8rem;
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.c-link:first-child { border-top: 1px solid var(--line); }
+.c-link:hover { color: var(--navy); padding-left: 4px; }
+.c-icon { font-size: 0.9rem; width: 18px; text-align: center; flex-shrink: 0; }
+.c-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-left: auto; white-space: nowrap; padding-left: 8px; }
+
+/* Contact form */
+.contact-form { display: flex; flex-direction: column; gap: 14px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.form-input {
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 13px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  color: var(--ink);
+  font-weight: 300;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+.form-input:focus { border-color: var(--navy); }
+.form-input::placeholder { color: #bbb; }
+textarea.form-input { resize: vertical; min-height: 110px; }
+
+.form-err {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  color: #c0392b;
+  margin-top: 4px;
+  display: none;
+}
+.form-err.show { display: block; }
+.form-input.invalid { border-color: #c0392b !important; }
+
+.form-status {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.74rem;
+  padding: 12px 16px;
+  line-height: 1.5;
+  background: #f8f8f8;
+  border: 1px solid var(--line);
+  color: var(--ink2);
+  border-radius: 6px;
+  box-shadow: 0 14px 30px rgba(12, 15, 20, 0.08);
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.form-status.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+.form-status.pending { background: #fff8e9; border-color: #e7c35a; color: #735d2d; }
+.form-status.success { background: #f0faf4; border-color: #9dccb0; color: #2a7a4f; }
+.form-status.error   { background: #fdf0f0; border-color: #e0a0a0; color: #8b2020; }
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 32px 7%;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-links a { text-decoration: none; color: var(--muted); transition: color 0.2s; }
+.footer-links a:hover { color: var(--navy); }
+
+/* ─── REVEAL ─── */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s, transform 0.65s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── ANIMATIONS ─── */
+@keyframes up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+═══════════════════════════════════════ */
+
+/* ── TABLET (max 1024px) ── */
+@media (max-width: 1024px) {
+  nav { padding: 18px 5%; }
+  section { padding: 80px 5%; scroll-margin-top: 60px; }
+  #hero { padding: 0 5%; padding-top: 80px; gap: 48px; }
+  .about-layout { gap: 48px; }
+  .contact-layout { gap: 48px; }
+  .exp-item { grid-template-columns: 140px 1fr; gap: 32px; }
+  .stat-num { font-size: 2.1rem; }
+}
+
+/* ── MOBILE (max 768px) ── */
+@media (max-width: 768px) {
+  nav { padding: 16px 5%; }
+
+  /* Show hamburger, hide desktop links */
+  .hamburger { display: flex; }
+  .nav-links { display: none; }
+  .mobile-menu { display: flex; }
+
+  section { padding: 64px 5%; scroll-margin-top: 60px; }
+
+  /* ── Hero ── */
+  #hero {
+    grid-template-columns: 1fr;
+    padding: 0 5%;
+    padding-top: 80px;
+    gap: 36px;
+    min-height: auto;
+    padding-bottom: 60px;
+  }
+  .hero-right { order: -1; }
+  .hero-photo { width: 180px; height: 180px; border-radius: 50%; }
+  .hero-photo-wrap { margin-bottom: 20px; }
+  .hero-bio { max-width: 100%; font-size: 0.87rem; }
+  .hero-cta { gap: 10px; }
+  .btn { padding: 12px 22px; font-size: 0.76rem; }
+
+  /* Stat row compact on mobile */
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .stat-cell { padding: 16px 0; }
+  .stat-cell:nth-child(odd) { padding-right: 16px; }
+  .stat-cell:nth-child(even) { padding-left: 16px; }
+  .stat-num { font-size: 1.9rem; }
+  .stat-label { font-size: 0.6rem; }
+
+  /* ── Section titles ── */
+  .section-title { margin-bottom: 36px; }
+
+  /* ── About ── */
+  .about-layout { grid-template-columns: 1fr; gap: 36px; }
+
+  /* ── Skills ── */
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+
+  /* ── Experience ── */
+  .exp-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 32px 0;
+  }
+  .exp-meta { display: flex; gap: 16px; align-items: baseline; flex-wrap: wrap; }
+  .exp-date { font-size: 0.6rem; }
+  .exp-domain { margin-top: 0; }
+  .exp-company { font-size: 1.5rem; }
+
+  /* ── Projects ── */
+  .proj-grid { grid-template-columns: 1fr; }
+
+  /* ── Blogs ── */
+  .blogs-grid { grid-template-columns: 1fr; }
+  .community-strip { gap: 12px; padding: 18px; }
+
+  /* ── Achievements ── */
+  .ach-grid { grid-template-columns: 1fr 1fr; }
+
+  /* ── Contact ── */
+  .contact-layout { grid-template-columns: 1fr; gap: 36px; }
+  .contact-intro { font-size: 1.25rem; }
+  .c-link { font-size: 0.75rem; }
+  .c-label { display: none; }
+
+  /* ── Footer ── */
+  footer { flex-direction: column; text-align: center; }
+}
+
+/* ── SMALL MOBILE (max 480px) ── */
+@media (max-width: 480px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .ach-grid { grid-template-columns: 1fr; }
+  .hero-cta { flex-direction: column; }
+  .btn { text-align: center; }
+  .stat-num { font-size: 1.7rem; }
+  .mobile-menu a { font-size: 1.9rem; }
+  .community-strip .cs-link { font-size: 0.72rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="javascript:void(0)" onclick="navTo('about'); toggleMenu(false);" class="menu-link">About</a>
+  <a href="javascript:void(0)" onclick="navTo('skills'); toggleMenu(false);" class="menu-link">Skills</a>
+  <a href="javascript:void(0)" onclick="navTo('experience'); toggleMenu(false);" class="menu-link">Experience</a>
+  <a href="javascript:void(0)" onclick="navTo('projects'); toggleMenu(false);" class="menu-link">Projects</a>
+  <a href="javascript:void(0)" onclick="navTo('blogs'); toggleMenu(false);" class="menu-link">Writing</a>
+  <a href="javascript:void(0)" onclick="navTo('contact'); toggleMenu(false);" class="menu-link">Contact</a>
+  <div class="mobile-menu-footer">avinash.narala · Irving, TX</div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="javascript:void(0)" onclick="navTo('hero')" class="nav-logo">avinash.narala</a>
+  <ul class="nav-links">
+    <li><a href="javascript:void(0)" onclick="navTo('about')">About</a></li>
+    <li><a href="javascript:void(0)" onclick="navTo('skills')">Skills</a></li>
+    <li><a href="javascript:void(0)" onclick="navTo('experience')">Experience</a></li>
+    <li><a href="javascript:void(0)" onclick="navTo('projects')">Projects</a></li>
+    <li><a href="javascript:void(0)" onclick="navTo('blogs')">Writing</a></li>
+    <li><a href="javascript:void(0)" onclick="navTo('contact')">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Senior Data Engineer · Irving, TX</div>
+    <h1 class="hero-name">Avinash<br><em>Narala</em></h1>
+    <div class="hero-role-wrap">
+      <span id="typewriter"></span><span style="opacity:0.4">|</span>
+    </div>
+    <p class="hero-bio">
+      Building scalable data platforms that turn raw chaos into clean, actionable insight.
+      Azure Databricks specialist. Co-creator of <strong>Alcazar</strong>, an officially Databricks-listed migration accelerator.
+      5× certified across Databricks, Azure &amp; GCP.
+    </p>
+    <div class="hero-cta">
+      <a href="javascript:void(0)" onclick="navTo('projects')" class="btn btn-dark">View Projects</a>
+      <a href="javascript:void(0)" onclick="navTo('contact')" class="btn btn-light">Get In Touch</a>
+      <a href="https://www.linkedin.com/in/avinash-narala/" target="_blank" rel="noopener" class="btn btn-light">LinkedIn ↗</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-photo-wrap">
+      <img
+        src="profile_image.jpg"
+        alt="Avinash Narala"
+        class="hero-photo"
+      />
+    </div>
+    <div class="stat-row">
+      <div class="stat-cell">
+        <span class="stat-num">4+</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">10TB+</span>
+        <span class="stat-label">Data Processed Daily</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">5×</span>
+        <span class="stat-label">Certifications</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">50%</span>
+        <span class="stat-label">Cloud Cost Reduction</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-eyebrow">About</div>
+  <h2 class="section-title reveal">Turning Data Into<br>Infrastructure That Lasts.</h2>
+  <div class="about-layout">
+    <div class="reveal">
+      <p class="about-p">
+        I'm a Senior Data Engineer with <strong>4+ years of experience</strong> designing and building enterprise-grade data platforms across BFSI and Retail/RCG domains. My core specialisation is Azure Databricks, Delta Lake, Delta Live Tables, real-time Kafka ingestion, and large-scale ETL automation.
+      </p>
+      <p class="about-p">
+        At <strong>ICICI Bank</strong>, I delivered three enterprise datamarts processing over <strong>10TB of banking data daily</strong>, cutting cloud costs by 50% and ETL runtime by 33% through deep Spark optimisation: partitioning, bucketing, and Z-ordering. At <strong>7-Eleven</strong>, I own 15+ pipelines handling live POS and payment data for millions of daily transactions with zero SLA breaches.
+      </p>
+      <p class="about-p">
+        Beyond the day job, I co-created <strong>Alcazar</strong>, an officially listed Databricks Brickbuilder Migration Solution used across the global Databricks ecosystem. I also write about data engineering on Medium and contribute to the Databricks community.
+      </p>
+      <div class="chips">
+        <span class="chip">BFSI Domain</span>
+        <span class="chip">Retail / RCG</span>
+        <span class="chip">Real-Time Kafka</span>
+        <span class="chip">Delta Live Tables</span>
+        <span class="chip">Data Vault 2.0</span>
+        <span class="chip">Spark Optimisation</span>
+        <span class="chip">ETL Automation</span>
+        <span class="chip">Schema Evolution</span>
+      </div>
+    </div>
+    <div class="cert-list reveal">
+      <div class="cert-row">
+        <div class="cert-dot"></div>
+        <div>
+          <div class="cert-text">Databricks Certified Data Engineer Professional</div>
+          <div class="cert-issuer">Databricks</div>
+        </div>
+      </div>
+      <div class="cert-row">
+        <div class="cert-dot"></div>
+        <div>
+          <div class="cert-text">Databricks Certified Solution Architect</div>
+          <div class="cert-issuer">Databricks</div>
+        </div>
+      </div>
+      <div class="cert-row">
+        <div class="cert-dot"></div>
+        <div>
+          <div class="cert-text">Databricks Certified Generative AI Engineer Associate</div>
+          <div class="cert-issuer">Databricks</div>
+        </div>
+      </div>
+      <div class="cert-row">
+        <div class="cert-dot"></div>
+        <div>
+          <div class="cert-text">Microsoft Azure Data Engineer Associate</div>
+          <div class="cert-issuer">Microsoft</div>
+        </div>
+      </div>
+      <div class="cert-row">
+        <div class="cert-dot"></div>
+        <div>
+          <div class="cert-text">Google Cloud Professional Data Engineer</div>
+          <div class="cert-issuer">Google Cloud</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-eyebrow">Technical Arsenal</div>
+  <h2 class="section-title reveal">Skills &amp; Technologies</h2>
+  <div class="skills-grid reveal">
+    <div class="skill-cell">
+      <div class="skill-cell-title">Languages</div>
+      <div class="skill-items">
+        <span class="s-tag">Python</span>
+        <span class="s-tag">PySpark</span>
+        <span class="s-tag">SQL</span>
+        <span class="s-tag">Flask</span>
+        <!-- <span class="s-tag">React.js</span> -->
+      </div>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-cell-title">Data Platforms</div>
+      <div class="skill-items">
+        <span class="s-tag">Azure Databricks</span>
+        <span class="s-tag">Delta Lake</span>
+        <span class="s-tag">Delta Live Tables</span>
+        <span class="s-tag">SQL Server</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-cell-title">Databases &amp; Streaming</div>
+      <div class="skill-items">
+        <span class="s-tag">Apache Kafka</span>
+        <span class="s-tag">MongoDB</span>
+        <span class="s-tag">MySQL</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-cell-title">Cloud &amp; Storage</div>
+      <div class="skill-items">
+        <span class="s-tag">Azure Blob Storage</span>
+        <span class="s-tag">AWS S3</span>
+        <span class="s-tag">Hadoop</span>
+        <span class="s-tag">GCP</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-cell-title">Tooling &amp; Analytics</div>
+      <div class="skill-items">
+        <span class="s-tag">Apache Spark</span>
+        <span class="s-tag">Power BI</span>
+        <span class="s-tag">Git</span>
+        <span class="s-tag">Data Vault 2.0</span>
+        <span class="s-tag">Dimension Modelling</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-cell-title">Patterns &amp; Practices</div>
+      <div class="skill-items">
+        <span class="s-tag">Incremental Ingestion</span>
+        <span class="s-tag">Schema Evolution</span>
+        <span class="s-tag">Z-Ordering</span>
+        <span class="s-tag">Bucketing</span>
+        <span class="s-tag">Partitioning</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-eyebrow">Experience</div>
+  <h2 class="section-title reveal">Where I've Worked</h2>
+  <div class="exp-list">
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-date">May 2025 – Present</div>
+        <div class="exp-domain">Retail / RCG</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-company">7-Eleven</div>
+        <div class="exp-role">Senior Data Engineer, Irving, TX</div>
+        <ul class="exp-points">
+          <li>Own end-to-end data ingestion for <strong>15+ pipelines</strong> across REST APIs (Stripe, Bybe), databases (MySQL, MongoDB), Workday workforce reports, and real-time Kafka streams for live POS transactions, processing millions of records daily.</li>
+          <li>Improved <strong>data freshness by 40%</strong> through batch window tuning and ingestion logic optimisation, enabling near real-time POS and payment availability for Operations and Merchandising teams.</li>
+          <li>Consolidated ingestion logic into reusable Python/PySpark modules, <strong>cutting code complexity by 35%</strong> and reducing new source onboarding from days to hours.</li>
+          <li>Implemented schema evolution handling and data quality gate checks, establishing clear pipeline contracts to prevent malformed data reaching downstream reports.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-date">Dec 2022 – May 2025</div>
+        <div class="exp-domain">BFSI</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-company">ICICI Bank</div>
+        <div class="exp-role">Senior Data Engineer, Hyderabad, India</div>
+        <ul class="exp-points">
+          <li>Delivered <strong>Branch-360, Collection-360, and Digital-360</strong>: three enterprise datamarts providing 360° views of credit/debit card and mobile payment transactions to 50+ daily active users.</li>
+          <li>Designed a reusable ETL automation framework covering <strong>70% of Data Vault construction</strong> across 15+ pipelines, saving 20+ engineering hours per sprint.</li>
+          <li>Achieved <strong>33% faster ETL runtime and 50% reduction in cloud resource costs</strong> through Spark partitioning, bucketing, and Z-ordering on 10TB+ of daily banking data.</li>
+          <li>Reduced dataset error rates from <strong>8% to under 3%</strong> through structured code reviews across a 10-member team.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-date">Jul 2022 – May 2025</div>
+        <div class="exp-domain">CoE / Platform</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-company">LTIMindtree</div>
+        <div class="exp-role">Databricks CoE, Solution Architect</div>
+        <ul class="exp-points">
+          <li>Architect of <strong>Alcazar</strong>, officially listed as a Databricks Brickbuilder Migration Solution, placing it among partner-grade tooling in active use across the global Databricks ecosystem.</li>
+          <li>Maintained a library of reusable Databricks templates and best-practice notebooks, <strong>improving cross-team delivery speed by 40%</strong>.</li>
+          <li>Drove Databricks feature adoption through technical blogs, LinkedIn content, and internal POCs, contributing to a <strong>35% increase in advanced feature usage</strong> across teams.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-eyebrow">Work</div>
+  <h2 class="section-title reveal">Featured Projects</h2>
+  <div class="proj-grid reveal">
+
+    <div class="proj-card">
+      <div class="proj-badge">⭐ Databricks Listed</div>
+      <div class="proj-name">Alcazar, Migration Accelerator</div>
+      <div class="proj-desc">Officially listed under Databricks Data Warehouse Brickbuilder Migration Solutions. Designed to accelerate warehouse-to-lakehouse migrations with reusable templates, reducing migration timelines across the global Databricks ecosystem.</div>
+      <div class="proj-tags">
+        <span class="proj-tag">Azure Databricks</span>
+        <span class="proj-tag">Delta Lake</span>
+        <span class="proj-tag">PySpark</span>
+        <span class="proj-tag">Migration</span>
+      </div>
+      <div class="proj-num">01</div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-badge">ICICI Bank</div>
+      <div class="proj-name">360° Banking Datamarts</div>
+      <div class="proj-desc">Three enterprise datamarts: Branch-360, Collection-360, Digital-360, built on a reusable Data Vault 2.0 ETL framework. Processing 10TB+ daily and serving 50+ users across risk, compliance, and marketing.</div>
+      <div class="proj-tags">
+        <span class="proj-tag">Data Vault 2.0</span>
+        <span class="proj-tag">ETL Automation</span>
+        <span class="proj-tag">Azure Databricks</span>
+        <span class="proj-tag">10TB+ Daily</span>
+      </div>
+      <div class="proj-num">02</div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-badge">7-Eleven</div>
+      <div class="proj-name">Real-Time POS Data Ingestion</div>
+      <div class="proj-desc">End-to-end ingestion pipelines for live POS and payment transactions from multiple sources including Stripe, Kafka, and MongoDB. Zero SLA breaches. 40% improvement in data freshness. Modular PySpark architecture for fast onboarding.</div>
+      <div class="proj-tags">
+        <span class="proj-tag">Apache Kafka</span>
+        <span class="proj-tag">PySpark</span>
+        <span class="proj-tag">Stripe API</span>
+        <span class="proj-tag">Real-Time</span>
+        <span class="proj-tag">Azure Databricks</span>
+      </div>
+      <div class="proj-num">03</div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-badge">LTIMindtree CoE</div>
+      <div class="proj-name">Databricks CoE Template Library</div>
+      <div class="proj-desc">Production-grade library of Databricks notebooks, pipeline templates, and best-practice frameworks. Drove 40% improvement in cross-team delivery speed and a 35% increase in advanced Databricks feature adoption organisation-wide.</div>
+      <div class="proj-tags">
+        <span class="proj-tag">Databricks</span>
+        <span class="proj-tag">Delta Live Tables</span>
+        <span class="proj-tag">Python</span>
+        <span class="proj-tag">Best Practices</span>
+      </div>
+      <div class="proj-num">04</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BLOGS -->
+<section id="blogs">
+  <div class="section-eyebrow">Writing</div>
+  <h2 class="section-title reveal">Technical Articles</h2>
+  <div class="blogs-grid reveal">
+
+    <a href="https://medium.com/stackademic/how-an-18-hour-databricks-job-run-led-us-to-build-smarter-timeouts-f3c0a5f85a48" target="_blank" rel="noopener" class="blog-card">
+      <div class="blog-pub">Stackademic · Apr 2025</div>
+      <div class="blog-title">How an 18-Hour Databricks Job Run Led Us to Build Smarter Timeouts</div>
+      <div class="blog-excerpt">A real-world incident that exposed a gap in job orchestration, and the smarter timeout strategy we built to prevent it from happening again.</div>
+      <div class="blog-arrow">Read on Medium →</div>
+    </a>
+
+    <a href="https://medium.com/stackademic/managed-vs-8751df2ebd0c" target="_blank" rel="noopener" class="blog-card">
+      <div class="blog-pub">Stackademic · Mar 2025</div>
+      <div class="blog-title">Managed vs External Tables in Unity Catalog: The Decision That's Silently Inflating Your Cloud Bill</div>
+      <div class="blog-excerpt">Most Databricks cost conversations end at cluster sizing. But there's a quieter, more overlooked decision that could be costing your team significantly.</div>
+      <div class="blog-arrow">Read on Medium →</div>
+    </a>
+
+    <a href="https://medium.com/@avinash.narala6814" target="_blank" rel="noopener" class="blog-card">
+      <div class="blog-pub">Medium · All Articles</div>
+      <div class="blog-title">More Articles on Data Engineering, Databricks &amp; Modern AI-Driven Solutions</div>
+      <div class="blog-excerpt">Follow along for deep dives on PySpark optimisation, Delta Live Tables, and practical patterns for building production-grade data platforms.</div>
+      <div class="blog-arrow">View all on Medium →</div>
+    </a>
+
+  </div>
+
+  <div class="community-strip reveal">
+    <span class="cs-label">Community</span>
+    <a href="https://community.databricks.com/t5/user/viewprofilepage/user-id/98941" target="_blank" rel="noopener">
+      <span class="cs-link">Databricks Community ↗</span>
+    </a>
+    <span style="color:var(--line)">|</span>
+    <a href="https://www.linkedin.com/in/avinash-narala/" target="_blank" rel="noopener">
+      <span class="cs-link">LinkedIn Articles ↗</span>
+    </a>
+    <span style="color:var(--line)">|</span>
+    <a href="https://github.com/AvinashNarala" target="_blank" rel="noopener">
+      <span class="cs-link">GitHub ↗</span>
+    </a>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-eyebrow">Recognition</div>
+  <h2 class="section-title reveal">Achievements</h2>
+  <div class="ach-grid reveal">
+    <div class="ach-card">
+      <div class="ach-icon">🏆</div>
+      <div class="ach-text"><strong>Top 100</strong> in the Sparks War 3.0 Databricks Hackathon by Celebal Technologies.</div>
+    </div>
+    <div class="ach-card">
+      <div class="ach-icon">🏅</div>
+      <div class="ach-text"><strong>Triple Award Winner</strong> at LTIMindtree, Hi-Five, Coach, and Super Crew Awards for consistent on-time delivery.</div>
+    </div>
+    <div class="ach-card">
+      <div class="ach-icon">🏓</div>
+      <div class="ach-text"><strong>Runners-up</strong> in Table Tennis Men's Doubles at LTIMindtree Sports Meet 2023.</div>
+    </div>
+    <div class="ach-card">
+      <div class="ach-icon">♟️</div>
+      <div class="ach-text"><strong>4× Inter-College Chess Champion</strong> with consecutive titles from 2018 to 2022.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-eyebrow">Contact</div>
+  <h2 class="section-title reveal">Let's Build<br>Something Together.</h2>
+  <div class="contact-layout">
+    <div class="reveal">
+      <p class="contact-intro">"Whether it's a data platform challenge, a collaboration, or just a conversation about Databricks, I'm always open."</p>
+      <div class="contact-links-list">
+        <a href="mailto:avinash.narala6814@gmail.com" class="c-link">
+          <span class="c-icon">✉</span>
+          avinash.narala6814@gmail.com
+          <span class="c-label">Email</span>
+        </a>
+        <a href="tel:+19402063550" class="c-link">
+          <span class="c-icon">📞</span>
+          +1 940-206-3550
+          <span class="c-label">Phone</span>
+        </a>
+        <a href="https://www.linkedin.com/in/avinash-narala/" target="_blank" rel="noopener" class="c-link">
+          <span class="c-icon">💼</span>
+          linkedin.com/in/avinash-narala
+          <span class="c-label">LinkedIn</span>
+        </a>
+        <a href="https://medium.com/@avinash.narala6814" target="_blank" rel="noopener" class="c-link">
+          <span class="c-icon">✍</span>
+          medium.com/@avinash.narala6814
+          <span class="c-label">Medium</span>
+        </a>
+        <a href="https://github.com/AvinashNarala" target="_blank" rel="noopener" class="c-link">
+          <span class="c-icon">⌨</span>
+          github.com/AvinashNarala
+          <span class="c-label">GitHub</span>
+        </a>
+        <a href="https://community.databricks.com/t5/user/viewprofilepage/user-id/98941" target="_blank" rel="noopener" class="c-link">
+          <span class="c-icon">⚡</span>
+          Databricks Community Profile
+          <span class="c-label">Community</span>
+        </a>
+      </div>
+    </div>
+    <div class="reveal">
+      <!--
+        CONTACT FORM powered by Formspree (free, no backend needed)
+        Steps to activate:
+          1. Go to https://formspree.io and sign up
+          2. Create a new form → copy your Form ID (looks like: xpzgkwqb)
+          3. Replace YOUR_FORM_ID below with your actual ID
+          4. Done, submissions arrive in your inbox
+      -->
+      <form class="contact-form" id="contactForm" action="https://formspree.io/f/mnjwgeab" method="POST" novalidate>
+        <input type="hidden" name="_subject" value="Portfolio message from website">
+        <div class="form-field">
+          <label class="form-label" for="fname">Your Name</label>
+          <input id="fname" name="name" type="text" class="form-input" placeholder="Jane Smith" autocomplete="name" required>
+          <span class="form-err" id="err-name"></span>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="femail">Email</label>
+          <input id="femail" name="email" type="email" class="form-input" placeholder="jane@company.com" autocomplete="email" required>
+          <span class="form-err" id="err-email"></span>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="fmessage">Message</label>
+          <textarea id="fmessage" name="message" class="form-input" placeholder="Tell me about your project or just say hi..." required></textarea>
+          <span class="form-err" id="err-message"></span>
+        </div>
+        <div class="form-status" id="formStatus"></div>
+        <button type="submit" class="btn btn-dark" style="border:none;width:100%;justify-content:center;" id="submitBtn">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2025 Avinash Narala · Irving, TX</div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/avinash-narala/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://medium.com/@avinash.narala6814" target="_blank" rel="noopener">Medium</a>
+    <a href="https://github.com/AvinashNarala" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://community.databricks.com/t5/user/viewprofilepage/user-id/98941" target="_blank" rel="noopener">Databricks</a>
+  </div>
+</footer>
+
+<script>
+// ── SMOOTH SCROLL HELPER (works inside iframes & GitHub Pages) ──
+function navTo(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var navH = document.getElementById('navbar').offsetHeight;
+  var top = el.getBoundingClientRect().top + window.pageYOffset - navH;
+  window.scrollTo({ top: top, behavior: 'smooth' });
+}
+
+// ── NAV SCROLL ──
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+// ── HAMBURGER MENU ──
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+let menuOpen = false;
+
+function toggleMenu(open) {
+  menuOpen = open;
+  hamburger.classList.toggle('open', open);
+  mobileMenu.style.display = open ? 'flex' : 'none';
+  // Trigger reflow for transition
+  if (open) {
+    requestAnimationFrame(() => mobileMenu.classList.add('open'));
+  } else {
+    mobileMenu.classList.remove('open');
+  }
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+
+hamburger.addEventListener('click', () => toggleMenu(!menuOpen));
+
+// Close menu when a nav link is clicked
+document.querySelectorAll('.menu-link').forEach(link => {
+  link.addEventListener('click', () => toggleMenu(false));
+});
+
+// Close on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && menuOpen) toggleMenu(false);
+});
+
+// ── TYPEWRITER ──
+const phrases = [
+  'Building Scalable Data Lakes',
+  'Real-Time Data Ingestion',
+  'Azure Databricks Specialist',
+  'Co-creator of Alcazar',
+  '5× Certified Engineer',
+  'ETL Automation Expert'
+];
+let pi = 0, ci = 0, deleting = false;
+const tw = document.getElementById('typewriter');
+
+function type() {
+  const phrase = phrases[pi];
+  if (!deleting) {
+    tw.textContent = phrase.slice(0, ++ci);
+    if (ci === phrase.length) { deleting = true; setTimeout(type, 2200); return; }
+  } else {
+    tw.textContent = phrase.slice(0, --ci);
+    if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+  }
+  setTimeout(type, deleting ? 35 : 75);
+}
+type();
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── EXPERIENCE STAGGER ──
+const expObserver = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 120);
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.exp-item').forEach(el => expObserver.observe(el));
+
+// ── CONTACT FORM ──
+// The contact form now submits directly to Formspree via AJAX so the page stays intact.
+(function() {
+  var form = document.getElementById('contactForm');
+  var statusEl = document.getElementById('formStatus');
+  var submitBtn = document.getElementById('submitBtn');
+
+  function clearErrors() {
+    document.querySelectorAll('.form-err').forEach(function(el) {
+      el.textContent = '';
+      el.classList.remove('show');
+    });
+    document.querySelectorAll('.form-input').forEach(function(el) {
+      el.classList.remove('invalid');
+    });
+    statusEl.className = 'form-status';
+    statusEl.textContent = '';
+  }
+
+  function showStatus(type, message) {
+    statusEl.className = 'form-status show ' + type;
+    statusEl.textContent = message;
+    window.clearTimeout(statusEl.hideTimer);
+    statusEl.hideTimer = window.setTimeout(function() {
+      statusEl.classList.remove('show', 'success', 'error');
+    }, 3000);
+  }
+
+  function showFieldError(id, message) {
+    var field = document.getElementById(id);
+    field.classList.add('invalid');
+    var err = document.getElementById('err-' + id.replace(/^f/, '').toLowerCase());
+    if (err) {
+      err.textContent = message;
+      err.classList.add('show');
+    }
+  }
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    clearErrors();
+
+    var name = form.querySelector('[name="name"]').value.trim();
+    var email = form.querySelector('[name="email"]').value.trim();
+    var message = form.querySelector('[name="message"]').value.trim();
+    var valid = true;
+
+    if (!name) {
+      showFieldError('fname', '⚠ Name is required');
+      valid = false;
+    }
+    if (!email) {
+      showFieldError('femail', '⚠ Email is required');
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showFieldError('femail', '⚠ Enter a valid email address');
+      valid = false;
+    }
+    if (!message) {
+      showFieldError('fmessage', '⚠ Message is required');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    submitBtn.disabled = true;
+    showStatus('pending', 'Sending your message...');
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function(response) {
+      return response.json().then(function(data) {
+        if (response.ok) {
+          showStatus('success', '✓ Your message was sent successfully.');
+          form.reset();
+        } else {
+          var message = (data && data.error) || 'Oops, submission failed. Please try again.';
+          showStatus('error', message);
+        }
+      });
+    }).catch(function() {
+      showStatus('error', 'Network error. Please try again.');
+    }).finally(function() {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
+    });
+  });
+})();
+</script>
+</body>
+</html>
